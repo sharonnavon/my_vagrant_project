@@ -1,2 +1,3 @@
-name: first last
-email: name@email.com
+name: Sharon Navon
+email: sharon.nik@gmail.com
+
