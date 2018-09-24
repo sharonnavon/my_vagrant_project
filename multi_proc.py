@@ -7,7 +7,6 @@ import random
 import datetime
 import multiprocessing
 
-
 # If the script is already running it will exit with an error message
 scpipt_pid = str(os.getpid())
 pidfile = '/tmp/myscript.pid'
@@ -28,19 +27,22 @@ try:
     # Check if the first argument is an integer
     N = int(sys.argv[1])
 
-    # Run N processes in parallel
+    # Prepare procs list and counts
+    procs = []
     successed_procs = 0
     failed_procs = 0
 
+    # Run N processes in parallel
     for i in range(0, N):
-        proc = multiprocessing.Process(target=print_pid_and_time)
-        proc.start()
+        procs.append(multiprocessing.Process(target=print_pid_and_time))
+        procs[i].start()
 
+    # Check exit code + count success and fail
+    for i in range(0, N):
         # Wait the process to be completeted
-        proc.join()
+        procs[i].join()
 
-        # Check exit code and count success and fail
-        if proc.exitcode == 0:
+        if procs[i].exitcode == 0:
             successed_procs += 1
 
         else:
